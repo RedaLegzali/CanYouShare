@@ -1,0 +1,6 @@
+RewriteRule ^upload$ /functions.php [L]
+RewriteRule ^files$ /functions.php [L]
+RewriteRule ^auth$ /functions.php [L]
+RewriteRule ^logout$ /functions.php [L]
+RewriteRule ^login$ /login.php [L]
+RewriteRule ^$ /index.php [L]
