@@ -13,7 +13,7 @@ $team = ucfirst($_SESSION['team']);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CanYouWeb</title>
+    <title>CanYouShare</title>
     <link rel="stylesheet" href="css/bulma.min.css" />
     <link rel="stylesheet" href="css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
