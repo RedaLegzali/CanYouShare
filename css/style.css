@@ -18,7 +18,8 @@ img.canyouweb {
   height: 90px;
 }
 
-.inputfile {
+.uploadfile,
+.sharedfile {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;

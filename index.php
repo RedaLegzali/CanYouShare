@@ -5,7 +5,10 @@ if ( $_SESSION['logged'] == false ) {
   header($redirection);
   exit;
 }
-$team = ucfirst($_SESSION['team']);
+if (isset($_SESSION['team']))
+  $team = ucfirst($_SESSION['team']);
+else
+  $admin = ucfirst($_SESSION['admin']);
 ?>
 
 <!DOCTYPE html>
@@ -52,8 +55,14 @@ $team = ucfirst($_SESSION['team']);
           <div class="navbar-menu">
             <div class="navbar-end">
               <div class="navbar-item">
-                <input class="inputfile" type="file" />
-                <button class="inputbtn button is-outlined is-primary mr-6">
+                <?php if ( isset($admin) ) { ?>
+                  <input class="sharedfile" type="file" />
+                  <button class="sharedbtn button is-outlined is-primary mr-6">
+                    Shared
+                  </button>
+                <?php }; ?>
+                <input class="uploadfile" type="file" />
+                <button class="uploadbtn button is-outlined is-primary mr-6">
                   Upload
                 </button>
               </div>
@@ -61,9 +70,16 @@ $team = ucfirst($_SESSION['team']);
                 <div class="dropdown is-right">
                   <div class="dropdown-trigger">
                     <button class="dropdown-btn button is-outlined is-info" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span>
-                        Team <?php echo $team; ?> 
-                      </span>
+                      <?php if ( isset($team) ) { ?>
+                        <span>
+                          Team <?php echo $team; ?> 
+                        </span>
+                      <?php }; ?>
+                      <?php if ( isset($admin) ) { ?>
+                        <span>
+                          Admin <?php echo $admin; ?> 
+                        </span>
+                      <?php }; ?>
                       <span class="icon is-small">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                       </span>

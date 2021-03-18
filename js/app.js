@@ -1,8 +1,10 @@
 import * as cyb from "./canyouweb.js";
 
 const menu = document.querySelector(".navbar-burger");
-const inputBtn = document.querySelector(".inputbtn");
-const inputfile = document.querySelector(".inputfile");
+const uploadBtn = document.querySelector(".uploadbtn");
+const uploadfile = document.querySelector(".uploadfile");
+const sharedfile = document.querySelector(".sharedfile");
+const sharedBtn = document.querySelector(".sharedbtn");
 const files_container = document.querySelector(".files");
 const shared_container = document.querySelector(".shared");
 
@@ -19,14 +21,23 @@ menu.addEventListener("click", (_) => {
   navbar.classList.toggle("is-active");
 });
 
-inputBtn.addEventListener("click", (_) => {
-  inputfile.click();
+uploadBtn.addEventListener("click", (_) => {
+  uploadfile.click();
 });
 
-inputfile.addEventListener("change", (event) => {
+uploadfile.addEventListener("change", (event) => {
   const file = event.target.files[0];
-  upload(file);
+  upload(file, "upload");
 });
+if (sharedBtn != null) {
+  sharedBtn.addEventListener("click", (_) => {
+    sharedfile.click();
+  });
+  sharedfile.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    upload(file, "shared");
+  });
+}
 
 const removeAllChildNodes = (parent) => {
   while (parent.firstChild) {
@@ -57,19 +68,16 @@ const renderFiles = async () => {
   let shared = await getShared();
   removeAllChildNodes(files_container);
   let element = "";
-  //href=${value["link"]}
   files.forEach((value) => {
-    element += `
-    <a
-    class="button is-large mr-3 mb-3 is-rounded"
-    >
-    <span class="icon is-medium">
-      <img src="images/folder.svg" />
-    </span>
-    <span>
-      ${value["name"]}
-    </span>
-    </a>`;
+    if ("link" in value) {
+      element += `<a href=${value["link"]} class="button is-large mr-3 mb-3 is-rounded"> 
+                <span class="icon is-medium"> <img src="images/folder.svg" />
+                </span> <span> ${value["name"]} </span> </a>`;
+    } else {
+      element += `<a class="button is-large mr-3 mb-3 is-rounded"> 
+                <span class="icon is-medium"> <img src="images/folder.svg" />
+                </span> <span> ${value["name"]} </span> </a>`;
+    }
   });
   files_container.innerHTML = element;
   removeAllChildNodes(shared_container);
@@ -91,7 +99,7 @@ const renderFiles = async () => {
   shared_container.innerHTML = element;
 };
 
-const upload = async (file) => {
+const upload = async (file, route) => {
   let data = new FormData();
   data.append("archive", file);
   let options = {
@@ -99,9 +107,11 @@ const upload = async (file) => {
     body: data,
   };
   try {
-    let response = await fetch(`${cyb.url}/upload`, options);
+    console.log(route);
+    let response = await fetch(`${cyb.url}/upload/${route}`, options);
     let data = await response.json();
-    inputfile.value = null;
+    uploadfile.value = null;
+    sharedfile.value = null;
     cyb.message.classList.remove("is-danger");
     cyb.message.classList.remove("is-success");
     cyb.message.classList.add("is-info");
