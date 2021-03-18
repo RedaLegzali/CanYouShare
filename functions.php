@@ -30,12 +30,24 @@ function upload() {
 	echo json_encode( array("status" => $status, "message" => $message) );
 }
 
+function shared() {
+	$dir = 'uploads/';
+	$directories = scandir($dir);
+	$response = array();
+	for($i=2; $i < count($directories); $i++) {
+		if (substr($directories[$i], -4) == '.zip') {
+			$link = $dir . $directories[$i];
+			$directory = substr($directories[$i], 0, -4);
+			array_push( $response, array("link" => $link, "name" => $directory) );
+		}
+	}
+	echo json_encode($response);
+}
+
 function files() {
 	$dir = 'uploads/' . $_SESSION['team'] . '/';
 	$directories = scandir($dir);
 	$response = array();
-	array_push( $response, array("link" => 'uploads/Cours.zip', "name" => 'Cours') );
-	array_push( $response, array("link" => 'uploads/Labs.zip', "name" => 'Labs') );
 	for($i=2; $i < count($directories); $i++) {
 		$link = $dir . $directories[$i];
 		$directory = substr($directories[$i], 0, -4);
@@ -88,6 +100,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
 	if ($_SERVER['REQUEST_URI'] == "/files" ) {
 		files();
+	}
+	if ($_SERVER['REQUEST_URI'] == "/shared" ) {
+		shared();
 	}
 	if ($_SERVER['REQUEST_URI'] == "/logout" ) {
 		logout();

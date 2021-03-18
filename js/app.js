@@ -4,6 +4,7 @@ const menu = document.querySelector(".navbar-burger");
 const inputBtn = document.querySelector(".inputbtn");
 const inputfile = document.querySelector(".inputfile");
 const files_container = document.querySelector(".files");
+const shared_container = document.querySelector(".shared");
 
 cyb.dropbtn.addEventListener("click", () => {
   cyb.dropdown.classList.toggle("is-active");
@@ -33,6 +34,15 @@ const removeAllChildNodes = (parent) => {
   }
 };
 
+const getShared = async () => {
+  let options = {
+    method: "GET",
+  };
+  let response = await fetch(`${cyb.url}/shared`, options);
+  let data = await response.json();
+  return data;
+};
+
 const getFiles = async () => {
   let options = {
     method: "GET",
@@ -44,9 +54,27 @@ const getFiles = async () => {
 
 const renderFiles = async () => {
   let files = await getFiles();
+  let shared = await getShared();
   removeAllChildNodes(files_container);
   let element = "";
+  //href=${value["link"]}
   files.forEach((value) => {
+    element += `
+    <a
+    class="button is-large mr-3 mb-3 is-rounded"
+    >
+    <span class="icon is-medium">
+      <img src="images/folder.svg" />
+    </span>
+    <span>
+      ${value["name"]}
+    </span>
+    </a>`;
+  });
+  files_container.innerHTML = element;
+  removeAllChildNodes(shared_container);
+  element = "";
+  shared.forEach((value) => {
     element += `
     <a
     href=${value["link"]}
@@ -60,7 +88,7 @@ const renderFiles = async () => {
     </span>
     </a>`;
   });
-  files_container.innerHTML = element;
+  shared_container.innerHTML = element;
 };
 
 const upload = async (file) => {
@@ -74,6 +102,11 @@ const upload = async (file) => {
     let response = await fetch(`${cyb.url}/upload`, options);
     let data = await response.json();
     inputfile.value = null;
+    cyb.message.classList.remove("is-danger");
+    cyb.message.classList.remove("is-success");
+    cyb.message.classList.add("is-info");
+    cyb.message_container.style.display = "block";
+    cyb.message_body.innerHTML = "Uploading...";
     if (data["status"] == 0) {
       cyb.message.classList.remove("is-danger");
       cyb.message.classList.add("is-success");

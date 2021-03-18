@@ -35,3 +35,7 @@ img.canyouweb {
   opacity: 0;
   transition: opacity 1000ms;
 }
+
+hr.solid {
+  border-top: 3px solid #bbb;
+}

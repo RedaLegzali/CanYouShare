@@ -89,7 +89,17 @@ $team = ucfirst($_SESSION['team']);
         </article>
       </div>
 
-      <div class="files container mt-6"></div>
+      <div class="container mt-6">
+        <h1 class="subtitle">Shared</h1>
+        <div class="shared"></div>
+      </div>
+      <div class="container">
+        <hr class="solid">
+      </div>
+      <div class="container mt-6">
+        <h1 class="subtitle">Uploaded</h1>
+        <div class="files"></div>
+      </div>
     </section>
     <script type="module" src="js/app.js"></script>
   </body>
