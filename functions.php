@@ -19,7 +19,8 @@ function upload($route) {
 	}
 
 	if ($status == 0) {
-		if (move_uploaded_file($_FILES["archive"]["tmp_name"], $target_file)) {
+		$file = str_replace(' ', '', $target_file);
+		if (move_uploaded_file($_FILES["archive"]["tmp_name"], $file)) {
 			$message = "File uploaded successfully";
 		}
 		else {
@@ -65,10 +66,10 @@ function files() {
 
 function login($team, $password) {
 	$data = array(
-		"reda" => [ "team" => "group_reda", "admin" => "admin_reda" ],
-		"samy" => [ "team" => "group_samy", "admin" => "admin_samy" ],
-		"oumaima" => [ "team" => "group_oumaima", "admin" => "admin_oumaima" ],
-		"hamza" => [ "team" => "group_hamza", "admin" => "admin_hamza" ]
+		"reda" => [ "team" => "c@nUwebB1", "admin" => "yapasdeprojetsdexcellence" ],
+		"samy" => [ "team" => "canYuWeebB2", "admin" => "yapasdeprojetsdexcellence" ],
+		"oumaima" => [ "team" => "CAnYouWEB?!B3", "admin" => "yapasdeprojetsdexcellence" ],
+		"hamza" => [ "team" => "CAnWebYouB4", "admin" => "yapasdeprojetsdexcellence" ]
 	);
 	$status = 0;
 	if ( ! array_key_exists( $team, $data ) ) {
@@ -102,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if ($_SERVER['REQUEST_URI'] == "/upload/shared" ) {
 		upload('shared');
 	}
-	if ($_SERVER['REQUEST_URI'] == "/upload/upload" ) {
+	if ($_SERVER['REQUEST_URI'] == "/upload" ) {
 		upload('upload');
 	}
 	if ($_SERVER['REQUEST_URI'] == "/auth" ) {

@@ -107,11 +107,15 @@ const upload = async (file, route) => {
     body: data,
   };
   try {
-    console.log(route);
-    let response = await fetch(`${cyb.url}/upload/${route}`, options);
+    let response;
+    if (route == "upload") {
+      response = await fetch(`${cyb.url}/upload`, options);
+    } else {
+      response = await fetch(`${cyb.url}/upload/shared`, options);
+    }
     let data = await response.json();
     uploadfile.value = null;
-    sharedfile.value = null;
+    if (sharedBtn != null) sharedfile.value = null;
     cyb.message.classList.remove("is-danger");
     cyb.message.classList.remove("is-success");
     cyb.message.classList.add("is-info");
